@@ -11,18 +11,18 @@ print(args.url)
 # specify the URL of the archive here
 archive_url = args.url
 
-def get_audio_links():
+def get_media_links():
     r = requests.get(archive_url)
     soup = BeautifulSoup(r.content,'html5lib')
     links = soup.find_all('a', href=True)
-    filteredLinks = list(filter(lambda x: x['href'].endswith('.mp3.html'),links))
+    filteredLinks = list(filter(lambda x: x['href'].endswith('.html'),links))
     ultLink = []
     for link in filteredLinks:
         ultLink.append("https:"+link['href'].strip(".html"))
 
     return ultLink
 
-def download_audio_batch(links):
+def download_media_batch(links):
     for link in links:
         file_name = link.split('/')[-2:]
         file_name = '/'.join(file_name)
@@ -43,7 +43,7 @@ def download_audio_batch(links):
     return
 
 if __name__ == '__main__':
-    linksToDownload = get_audio_links()
+    linksToDownload = get_media_links()
     for link in linksToDownload:
         print(link)
-    download_audio_batch(linksToDownload)
+    download_media_batch(linksToDownload)
